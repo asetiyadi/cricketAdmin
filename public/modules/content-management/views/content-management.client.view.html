@@ -1,0 +1,52 @@
+<div class="container-fluid" ng-controller="ContentManagementController">
+
+    <div class="row">
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h3><strong>New Content Manager</strong> {{status_text}}</h3>
+
+            <form name="contentForm" id="contentForm">
+                 <div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="contentSelectedIndex" ng-change="selectContent()" >
+                            <option></option>
+                            <option value="ADD">Add new content</option>
+                            <option value="{{$index}}" ng-repeat="content in availableContent">{{content.contentShortDescr}}</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- showContentDescription: Display input fields -->
+                <div class="form-group" ng-show="accessControl.showContentDescription">
+
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">
+                            <span class="control-label input-label">Description</span>
+                        </legend>
+
+                        <!-- Short and Long Description -->
+                        <span class="form-group">
+                            <div class="form-group">
+                                <label>Short Description</label>
+                                <input class="form-control" type="text" name="contentShort" placeholder="Enter short description" ng-model="content.contentShortDescr">
+                                
+                                <label>Long Description</label>
+                                <input class="form-control" type="text" name="contentLong" placeholder="Enter long description" ng-model="content.contentLongDescr">
+                            </div>
+                            
+                            <div class="form-group" ng-hide="accessControl.addContentEnabled">
+                                <button type="button" class="btn btn-success" ng-click="saveContent()">Update</button>
+                                <button type="button" class="btn btn-success" ng-click="deleteContent()">Delete</button>
+                                <button type="button" class="btn btn-success" ng-click="cancelContent()">Cancel</button>
+                            </div>
+                            <div class="form-group" ng-show="accessControl.addContentEnabled">
+                                <button type="button" class="btn btn-success" ng-click="saveContent()">Save</button>
+                                <button type="button" class="btn btn-success" ng-click="cancelContent()">Cancel</button>
+                            </div>
+                        </span>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

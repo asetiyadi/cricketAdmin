@@ -1,0 +1,101 @@
+<section data-ng-controller="RuleManagementController">
+	
+	<div class="row">
+
+		<!--- sidebar | col-sm-3 col-md-2 sidebar --->
+	    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h3><strong>Rule Manager</strong>  {{status_text}}</h3>
+            
+            
+            <!-- Rules Context -->
+            <div>
+                <form name="ruleForm" novalidate ng-submit="saveRule()">
+                    <div class="form-group">
+                        <select class="form-control" ng-model="ruleSelectedIndex" ng-change="selectRule()" >
+                            <option></option>
+                            <option value="ADD">Add new rule</option>
+                            <option value="{{$index}}" ng-repeat="localRule in availableRules">{{localRule.id}}</option>
+                        </select>
+                    </div>
+
+                    <!-- New rule name -->
+                    <div class="form-group" ng-show="accessControl.addRuleEnabled">
+                        <input type="text" name="newrule" id="newruleid" class="form-control" 
+                               placeholder="Enter the rule name" size="20" 
+                               ng-maxlength="128" ng-model="rule.id" required />
+                        <!--
+                        is ruleForm valid? {{ruleForm.newrule.$valid}}<br/>
+                        is newrule input dirty? {{ruleForm.newrule.$dirty}}
+                        -->
+                    </div>
+                    <!--
+                    <div class="error" ng-show="ruleForm.newrule.$invalid && ruleForm.newrule.$dirty">
+                        <span ng-show="ruleForm.newrule.$error.required">
+                            Please enter the new rule name
+                        </span>
+                        
+                    </div>
+                    -->
+
+                    
+                    <!-- ***** DEVICE FACTORS Section ***** -->
+
+                    <div class="form-group">
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">
+                                <span class="control-label input-label">Choose Device Factors</span>
+                            </legend>
+   
+                            <span ng-repeat="factor in availableFactors" class="col-md-3" bs-tooltip tooltip="{{factor.tooltip}}">
+                               <input type="checkbox" check-list="selected_factors" value="{{$index}}"> {{factor.id}} 
+                                <i class="glyphicon glyphicon-info-sign" rel="tooltip"></i>
+                            </span>
+                           
+                            Selected factor = {{selected_factors}}
+                        </fieldset>
+                    </div>
+                    
+
+                    <!-- ***** CONTENT Section ***** -->
+                    
+                    <div class="form-group">
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">
+                                <span class="control-label input-label">Choose/Create Content</span>
+                            </legend>
+
+                            <span ng-repeat="content in availableContent">
+                                <input type="checkbox" check-list="selected_content" value="{{$index}}"> {{content.contentShortDescr}} | {{content.contentLongDescr}} <br>
+                            </span>
+                            Selected content = {{selected_content}}
+                            <div class="form-group" ng-show="accessControl.addContentEnabled">
+                                <input type="text" name="contentShortDescr" id="contentShortDescr" class="form-control" placeholder="Enter new content short description" ng-model="content.contentShortDescr">
+                                <textarea type="textarea" name="contentLongDescr" id="contentLongDescr" class="form-control" placeholder="Enter new content long description" rows="5" ng-model="content.contentLongDescr"></textarea>
+                            </div>
+                            <div class="form-group"  ng-show="accessControl.addContentEnabled">
+                                <button type="button" class="btn btn-success" ng-click="saveContent()">Save Content</button>
+                                <button type="button" class="btn btn-success" ng-click="cancelContent()">Cancel</button>
+                            </div>
+                            <div class="form-group" ng-hide="accessControl.addContentEnabled">
+                                <button type="button" class="btn btn-success" ng-click="addContent()">New Content</button>
+                            </div>
+                        </fieldset>
+                    </div>
+
+
+                    <div>
+                        <button type="submit" class="btn btn-success" ng-disabled="!accessControl.addRuleEnabled || ruleForm.$invalid">Save Rule</button>
+                        <button type="button" class="btn btn-success" ng-disabled="!accessControl.addRuleEnabled" onclick="ruleForm.reset()" ng-click="resetForm()">Cancel Rule</button>
+                        <button type="button" class="btn btn-success" ng-disabled="!accessControl.addRuleEnabled" ng-click="deleteRule()">Delete Rule</button>
+					</div>
+                    
+                </form>
+            </div>
+            
+	    	
+
+	    </div>
+
+	</div>
+
+</section>
